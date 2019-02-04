@@ -3,8 +3,9 @@ import os
 
 def compress():
 
-    buffersize = 100
+    buffersize = 50
     position = 0
+    bufferposition = 0
     buffer = None
 
     time_start = time.time()
@@ -15,11 +16,19 @@ def compress():
     if os.path.exists("CompressedFile.txt"):
         os.remove("CompressedFile.txt")
 
-    with open("FileToCompress.txt", 'rb') as filetocompress:
-        with open("CompressedFile.txt", 'wb') as compressedfile:
+    with open("FileToCompress.txt", 'r') as filetocompress:
+        with open("CompressedFile.txt", 'w') as compressedfile:
             buffer = filetocompress.read(buffersize)
-            for i in buffer:
-                print(i)
+
+            for index in range(1, len(buffer)):
+                similiar = []
+                for index2 in range(index):
+                    if buffer[index] == buffer[index2]:
+                        similiar.append(buffer[index])
+                    else:
+                        similiar = []
+                print(similiar)
+
 
 
     print(len(library))
