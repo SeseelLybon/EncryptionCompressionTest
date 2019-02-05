@@ -17,18 +17,31 @@ def compress():
         os.remove("CompressedFile.txt")
 
     with open("FileToCompress.txt", 'r') as filetocompress:
-        with open("CompressedFile.txt", 'w') as compressedfile:
-            buffer = filetocompress.read(buffersize)
+        with open("CompressedFile.txt.tmp", 'w') as compressedfile:
+            buffer = filetocompress.read(500)
+            buffer2 = list()
+            while buffer != "":
+                #buffer = buffer.split(" ")
+                #print(buffer)
+                for index in range(1, len(buffer)):
+                    similiar = list()
+                    for index2 in range(0, index):
+                        if buffer[index] == buffer[index2]:
+                            similiar.append(buffer[index])
+                            if index < buffersize:
+                                index += 1
+                        elif len(similiar):
+                            if len(similiar) > 2:
+                                print("".join(similiar) )
+                            similiar = []
+                        else:
+                            buffer2.append(buffer[index])
+                compressedfile.write("".join(buffer2))
 
-            for index in range(1, len(buffer)):
-                similiar = []
-                for index2 in range(index):
-                    if buffer[index] == buffer[index2]:
-                        similiar.append(buffer[index])
-                    else:
-                        similiar = []
-                print(similiar)
+                buffer = filetocompress.read(500)
 
+
+    # os.rename("CompressedFile.txt.tmp", "CompressedFile.txt")
 
 
     print(len(library))
