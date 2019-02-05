@@ -3,7 +3,7 @@ import os
 
 def compress():
 
-    buffersize = 50
+    buffersize = 1000
     position = 0
     bufferposition = 0
     buffer = None
@@ -17,27 +17,47 @@ def compress():
         os.remove("CompressedFile.txt")
 
     with open("FileToCompress.txt", 'r') as filetocompress:
-        with open("CompressedFile.txt.tmp", 'w') as compressedfile:
+        with open("CompressedFile.txt", 'w') as compressedfile:
             buffer = filetocompress.read(500)
             buffer2 = list()
+
+            indextoskipto = 0
+
+            part = 0
             while buffer != "":
-                #buffer = buffer.split(" ")
-                #print(buffer)
-                for index in range(1, len(buffer)):
-                    similiar = list()
-                    for index2 in range(0, index):
-                        if buffer[index] == buffer[index2]:
-                            similiar.append(buffer[index])
-                            if index < buffersize:
-                                index += 1
-                        elif len(similiar):
-                            if len(similiar) > 2:
-                                print("".join(similiar) )
-                            similiar = []
-                        else:
-                            buffer2.append(buffer[index])
+                part += 1
+                print(part)
+
+                index_w_bsize = 1
+                while index_w_bsize < buffersize:
+                    try:
+                        similiar = list()
+
+                        for index2 in range(0, index_w_bsize):
+                            if index_w_bsize >= len(buffer):
+                                break
+
+                            if buffer[index_w_bsize] == buffer[index2]:
+                                buffer2.append("$")
+                                index_w_bsize += 1
+
+                            else:
+                                buffer2.append(buffer[index_w_bsize])
+                                '''
+                                if index_w_bsize < buffersize:
+                                    index_w_bsize += 1
+                            elif len(similiar):
+                                
+                                if len(similiar) > 2:
+                                    buffer2.append("$55^55$")
+                                similiar = []
+                            '''
+                    finally:
+                        index_w_bsize += 1
+
                 compressedfile.write("".join(buffer2))
 
+                buffer2 = list()
                 buffer = filetocompress.read(500)
 
 
